@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "designing-a-blog-system",
+    "title": "Designing a blog system that stays simple to maintain",
+    "excerpt": "A practical first pass at structuring articles so the site can grow without becoming hard to edit.",
+    "category": "System design",
+    "publishedAt": "2026-04-18",
+    "readingTime": "5 min read",
+    "tags": ["next.js", "content model", "portfolio"],
+    "featured": true,
+    "content": "## Start with one source of truth\n\nA blog becomes difficult to extend when post data is scattered across components. Keeping the content in a single module makes the routes, cards, and metadata all derive from the same shape.\n\nThat approach is intentionally boring, but it keeps the system predictable while the rest of the site is still changing.\n\n## Design for the next content step\n\nThe current implementation is static, but the shape already works for markdown, a CMS, or API-backed content later. That means the visual system can stay stable while the content source evolves."
+  },
+  {
+    "slug": "writing-case-studies-that-read-fast",
+    "title": "Writing case studies that still read quickly on mobile",
+    "excerpt": "A layout pattern for turning longer write-ups into something scannable without losing depth.",
+    "category": "Writing",
+    "publishedAt": "2026-04-10",
+    "readingTime": "4 min read",
+    "tags": ["editing", "layout", "ux"],
+    "featured": true,
+    "content": "## Lead with the outcome\n\nMobile readers need the conclusion before the context. The strongest page structure opens with a clear claim, then uses short sections to explain the decisions behind it.\n\n## Use rhythm instead of density\n\nAlternating headings, pull quotes, and short paragraphs creates a pace that feels lighter than a single long wall of text."
+  },
+  {
+    "slug": "what-to-track-in-a-portfolio-blog",
+    "title": "What to track in a portfolio blog after launch",
+    "excerpt": "A lightweight checklist for understanding which posts and sections actually get attention.",
+    "category": "Analytics",
+    "publishedAt": "2026-03-29",
+    "readingTime": "3 min read",
+    "tags": ["metrics", "portfolio", "content strategy"],
+    "featured": false,
+    "content": "## Watch entry and exit points\n\nIt is useful to know which article started the session, but also which section likely caused the reader to stop. That gives more signal than view count alone.\n\n## Keep the list small\n\nThe more metrics you track, the less likely you are to use them. A compact set of repeatable signals is enough for the first few publishing cycles."
+  }
+]
