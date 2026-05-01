@@ -3,13 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAllPosts, type BlogPostInput, upsertPost } from "@/lib/blog";
 
 function isAuthorized(req: NextRequest) {
-  const requiredToken = process.env.ADMIN_WRITE_TOKEN;
-  if (!requiredToken) {
-    return true;
-  }
-
-  const providedToken = req.headers.get("x-admin-token");
-  return providedToken === requiredToken;
+  return req.cookies.get("blog_admin")?.value === "1";
 }
 
 export function GET() {

@@ -30,7 +30,6 @@ export default function BlogEditorModal({ posts }: Props) {
   const [mode, setMode] = useState<Mode>("create");
   const [selectedSlug, setSelectedSlug] = useState("");
 
-  const [adminToken, setAdminToken] = useState("");
   const [slug, setSlug] = useState("");
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
@@ -58,6 +57,7 @@ export default function BlogEditorModal({ posts }: Props) {
     setContent(defaultMarkdown);
     setStatus("");
   }
+
 
   function loadForEdit(nextSlug: string) {
     setSelectedSlug(nextSlug);
@@ -116,10 +116,7 @@ export default function BlogEditorModal({ posts }: Props) {
     try {
       const response = await fetch("/api/blogs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(adminToken ? { "x-admin-token": adminToken } : {}),
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug: slug.trim() || undefined,
           title,
@@ -263,15 +260,7 @@ export default function BlogEditorModal({ posts }: Props) {
                 <label>
                   <div className="mb-1 text-sm font-medium text-slate-700">Admin token (if enabled)</div>
                   <input
-                    value={adminToken}
-                    onChange={(event) => setAdminToken(event.target.value)}
-                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
-                  />
-                </label>
-                <label className="inline-flex items-center gap-2 pt-6 text-sm font-medium text-slate-700">
-                  <input
-                    type="checkbox"
-                    checked={featured}
+                    vaecked={featured}
                     onChange={(event) => setFeatured(event.target.checked)}
                   />
                   Featured post
