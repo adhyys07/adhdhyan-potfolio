@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { markdownToHtml } from "@/lib/markdown";
 
@@ -40,8 +39,6 @@ export default function BlogEditorModal({ posts }: Props) {
   const [content, setContent] = useState(defaultMarkdown);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState("");
-
-  const router = useRouter();
 
   const previewHtml = useMemo(() => markdownToHtml(content), [content]);
 
@@ -140,7 +137,7 @@ export default function BlogEditorModal({ posts }: Props) {
       }
 
       setStatus(`Saved successfully. Open /writing/${data.post?.slug ?? ""}`);
-      router.refresh();
+      window.location.reload();
     } catch {
       setStatus("Could not save post.");
     } finally {

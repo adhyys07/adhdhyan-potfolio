@@ -1,7 +1,5 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-
+import Link from "next/link";
+import PortfolioIndexClient from "./portfolio-index-client";
 import styles from "./portfolio-index.module.css";
 
 type Props = {
@@ -73,58 +71,8 @@ const projects = [
 ];
 
 export default function PortfolioIndex({ fontClassName }: Props) {
-  const rootRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-
-    const cursor = root.querySelector<HTMLElement>("[data-cursor]");
-    if (!cursor) return;
-
-    const moveCursor = (event: MouseEvent) => {
-      cursor.style.left = `${event.clientX}px`;
-      cursor.style.top = `${event.clientY}px`;
-    };
-
-    const hoverTargets = root.querySelectorAll<HTMLElement>("a, [data-hover]");
-    const onEnter = () => cursor.classList.add(styles.big);
-    const onLeave = () => cursor.classList.remove(styles.big);
-
-    hoverTargets.forEach((target) => {
-      target.addEventListener("mouseenter", onEnter);
-      target.addEventListener("mouseleave", onLeave);
-    });
-
-    document.addEventListener("mousemove", moveCursor);
-
-    const revealTargets = root.querySelectorAll<HTMLElement>("[data-reveal]");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    revealTargets.forEach((node) => observer.observe(node));
-
-    return () => {
-      document.removeEventListener("mousemove", moveCursor);
-      hoverTargets.forEach((target) => {
-        target.removeEventListener("mouseenter", onEnter);
-        target.removeEventListener("mouseleave", onLeave);
-      });
-      observer.disconnect();
-    };
-  }, []);
-
   return (
-    <main ref={rootRef} className={`${styles.page} ${fontClassName}`}>
+    <main id="portfolio-root" className={`${styles.page} ${fontClassName} ${styles.noJs}`}>
       <div data-cursor className={styles.cursor} />
 
       <nav className={styles.nav}>
@@ -168,7 +116,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
       </section>
 
       <hr className={styles.divider} />
-
 
       <section id="skills" className={styles.section}>
         <div className={styles.sectionLabel}>01 - what i do</div>
@@ -243,18 +190,18 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.sectionLabel}>03 - the startup chapter</div>
         <div className={styles.startupBox} data-reveal>
           <div className={styles.startupHeadline}>
-              i&apos;ve started things,<br />
-              <em>broken things,</em><br />
-              and shipped anyway.
-            </div>
-            <p className={styles.startupBody}>
-              three startups over four years. one acqui-hired, one still running, one beautifully dead.
-              i started <strong>Building Not Found</strong> and led its early fundraising efforts.
-              i&apos;ve pitched in SF, built with co-founders across timezones, and learned that the best code in the world means nothing if nobody uses it.
-            </p>
-            <p className={styles.startupBody}>
-              now i help other early-stage founders avoid the mistakes i made — and make some interesting new ones together.
-            </p>
+            i&apos;ve started things,<br />
+            <em>broken things,</em><br />
+            and shipped anyway.
+          </div>
+          <p className={styles.startupBody}>
+            three startups over four years. one acqui-hired, one still running, one beautifully dead.
+            i started <strong>Building Not Found</strong> and led its early fundraising efforts.
+            i&apos;ve pitched in SF, built with co-founders across timezones, and learned that the best code in the world means nothing if nobody uses it.
+          </p>
+          <p className={styles.startupBody}>
+            now i help other early-stage founders avoid the mistakes i made — and make some interesting new ones together.
+          </p>
           <div className={styles.startupStats}>
             <div><div className={styles.statNum}>3x</div><div className={styles.statLabel}>founded</div></div>
             <div><div className={styles.statNum}>$600k</div><div className={styles.statLabel}>raised</div></div>
@@ -270,15 +217,15 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.sectionLabel}>05 - Blogs</div>
         <div className={styles.blogBox} data-reveal>
           <div className={styles.blogHeadline}>
-            notes & essays
+            blog
           </div>
           <p className={styles.blogBody}>
             i write about building products, shipping games, and learning in public.
             no marketing fluff—just raw thoughts on engineering, startups, and what I'm learning.
           </p>
-          <a href="/writing" className={styles.blogLink}>
+          <Link href="/writing" className={styles.blogLink}>
             read all posts →
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -303,6 +250,8 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <span>made with caffeine and questionable life choices</span>
         <span><a href="#">source</a> · <a href="#">pgp</a> · <a href="#">rss</a></span>
       </footer>
+
+      <PortfolioIndexClient />
     </main>
   );
 }

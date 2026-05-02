@@ -1,6 +1,6 @@
 import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
 
-import PortfolioIndex from "@/components/portfolio-index";
+import PortfolioIndex from "@/components/portfolio-index-server";
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",

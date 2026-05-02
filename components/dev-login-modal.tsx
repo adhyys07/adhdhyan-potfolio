@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Props = {
   isOpen: boolean;
@@ -13,7 +12,6 @@ export default function DevLoginModal({ isOpen, onClose }: Props) {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,7 +35,7 @@ export default function DevLoginModal({ isOpen, onClose }: Props) {
       setUsername("");
       setPassword("");
       onClose();
-      router.refresh();
+      window.location.reload();
     } catch {
       setError("Could not connect to server.");
     } finally {

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import DevLoginModal from "./dev-login-modal";
 
 type Props = {
@@ -11,7 +10,6 @@ type Props = {
 export default function WritingPageClient({ isLoggedIn }: Props) {
   const [loginOpen, setLoginOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn);
-  const router = useRouter();
 
   return (
     <>
@@ -29,7 +27,7 @@ export default function WritingPageClient({ isLoggedIn }: Props) {
           onClick={() => {
             setLoggedIn(false);
             document.cookie = "blog_admin=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            router.refresh();
+            window.location.reload();
           }}
           className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/70 transition-colors hover:border-white/25 hover:text-white"
         >
@@ -42,7 +40,7 @@ export default function WritingPageClient({ isLoggedIn }: Props) {
         onClose={() => {
           setLoginOpen(false);
           setLoggedIn(true);
-          router.refresh();
+          window.location.reload();
         }}
       />
     </>

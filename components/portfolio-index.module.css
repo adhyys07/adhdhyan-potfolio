@@ -21,6 +21,10 @@
   font-family: var(--mono);
   font-size: 14px;
   line-height: 1.7;
+  cursor: auto;
+}
+
+.page.jsReady {
   cursor: none;
 }
 
@@ -677,6 +681,12 @@
 .page .visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.page.noJs [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 @keyframes pulseDot {
