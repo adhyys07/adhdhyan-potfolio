@@ -257,10 +257,10 @@ export default function BlogEditorModal({ posts }: Props) {
                     className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                   />
                 </label>
-                <label>
-                  <div className="mb-1 text-sm font-medium text-slate-700">Admin token (if enabled)</div>
+                <label className="inline-flex items-center gap-2 pt-6 text-sm font-medium text-slate-700">
                   <input
-                    vaecked={featured}
+                    type="checkbox"
+                    checked={featured}
                     onChange={(event) => setFeatured(event.target.checked)}
                   />
                   Featured post
