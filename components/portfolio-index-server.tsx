@@ -37,36 +37,65 @@ const skills = [
   },
 ];
 
-const projects = [
+type Project = {
+  name: string;
+  desc: string;
+  type: string;
+  year: string;
+  href?: string;
+  github?: string;
+};
+
+const projects: Project[] = [
   {
     name: "Voxcraft",
     desc: "voxel destruction sandbox in Godot with custom physics chunks - 40k downloads on itch.io",
     type: "Game · Indie",
     year: "2024",
+    href: "https://adhyys.itch.io/voxcraft",
   },
   {
     name: "Nexus Dashboard",
     desc: "real-time analytics SaaS for indie game studios. MRR hit $8k before acqui-hire",
     type: "SaaS · Startup",
     year: "2023",
+    href: "https://nexus-dashboard.example.com",
   },
   {
     name: "bevy_netcode",
     desc: "open source deterministic netcode library for the Bevy game engine - 900+ GitHub stars",
     type: "Open Source",
     year: "2023",
+    github: "https://github.com/adhyys07/bevy_netcode",
   },
   {
     name: "Echoes of the Void",
     desc: "48h jam horror game in Unity. won 'best atmosphere' at Ludum Dare 54",
     type: "Game · Jam",
     year: "2023",
+    href: "https://adhyys.itch.io/echoes-of-the-void",
   },
   {
     name: "FoundersAtMidnight",
     desc: "newsletter for builder-types - no VC fluff, just raw notes from building in public",
     type: "Content",
     year: "ongoing",
+    href: "https://foundersatmidnight.dev",
+    github: "https://github.com/adhyys07/foundersatmidnight",
+  },
+  {
+    name: "Portfolio redesign",
+    desc: "this portfolio experience, built with Next.js and a custom interactive homepage",
+    type: "Web · Personal",
+    year: "2025",
+    github: "https://github.com/adhyys07/portfolio",
+  },
+  {
+    name: "Cucumbu CLI",
+    desc: "developer tooling for managing build assets and local workflows across hobby projects",
+    type: "Tooling",
+    year: "2024",
+    github: "https://github.com/adhyys07/cucumbu-cli",
   },
 ];
 
@@ -81,6 +110,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           <li><a href="#skills">skills</a></li>
           <li><a href="#projects">projects</a></li>
           <li><a href="#startups">startups</a></li>
+          <li><a href="#blog">blog</a></li>
           <li><a href="#contact">contact</a></li>
         </ul>
         <div className={styles.navStatus}>
@@ -105,9 +135,8 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           <span className={`${styles.chip} ${styles.a}`}>Unity / Godot</span>
           <span className={`${styles.chip} ${styles.b}`}>TypeScript</span>
           <span className={`${styles.chip} ${styles.b}`}>React / Next.js</span>
-          <span className={`${styles.chip} ${styles.c}`}>3x Founder</span>
-          <span className={styles.chip}>open source</span>
-          <span className={styles.chip}>game jams</span>
+          <span className={`${styles.chip} ${styles.c}`}>open source</span>
+          <span className={`${styles.chip} ${styles.c}`}>game jams</span>
         </div>
         <div className={styles.scrollHint}>
           <div className={styles.scrollLine} />
@@ -169,11 +198,31 @@ export default function PortfolioIndex({ fontClassName }: Props) {
       <section id="projects" className={styles.section}>
         <div className={styles.sectionLabel}>02 - things i&apos;ve shipped</div>
         <div className={styles.projectsList}>
-          {projects.map((project) => (
+          {projects.slice(0, 4).map((project) => (
             <div key={project.name} className={styles.projectRow} data-hover data-reveal>
               <div>
-                <div className={styles.projectName}>{project.name}</div>
+                <div className={styles.projectName}>
+                  {project.href ? (
+                    <a href={project.href} target="_blank" rel="noreferrer noopener" className={styles.projectLink}>
+                      {project.name}
+                    </a>
+                  ) : (
+                    project.name
+                  )}
+                </div>
                 <div className={styles.projectDesc}>{project.desc}</div>
+                <div className={styles.projectActions}>
+                  {project.github ? (
+                    <a href={project.github} target="_blank" rel="noreferrer noopener" className={styles.projectAction}>
+                      GitHub
+                    </a>
+                  ) : null}
+                  {project.href ? (
+                    <a href={project.href} target="_blank" rel="noreferrer noopener" className={styles.projectAction}>
+                      View
+                    </a>
+                  ) : null}
+                </div>
               </div>
               <div className={styles.projectMeta}>
                 <div className={styles.projectType}>{project.type}</div>
@@ -182,6 +231,46 @@ export default function PortfolioIndex({ fontClassName }: Props) {
             </div>
           ))}
         </div>
+
+        {projects.length > 4 ? (
+          <details className={styles.projectDetails}>
+            <summary className={styles.projectSummary}>see all projects</summary>
+            <div className={styles.projectsList}>
+              {projects.slice(4).map((project) => (
+                <div key={project.name} className={styles.projectRow} data-hover data-reveal>
+                  <div>
+                    <div className={styles.projectName}>
+                      {project.href ? (
+                        <a href={project.href} target="_blank" rel="noreferrer noopener" className={styles.projectLink}>
+                          {project.name}
+                        </a>
+                      ) : (
+                        project.name
+                      )}
+                    </div>
+                    <div className={styles.projectDesc}>{project.desc}</div>
+                    <div className={styles.projectActions}>
+                      {project.github ? (
+                        <a href={project.github} target="_blank" rel="noreferrer noopener" className={styles.projectAction}>
+                          GitHub
+                        </a>
+                      ) : null}
+                      {project.href ? (
+                        <a href={project.href} target="_blank" rel="noreferrer noopener" className={styles.projectAction}>
+                          View
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className={styles.projectMeta}>
+                    <div className={styles.projectType}>{project.type}</div>
+                    <div className={styles.projectYear}>{project.year}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
+        ) : null}
       </section>
 
       <hr className={styles.divider} />
@@ -204,7 +293,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           </p>
           <div className={styles.startupStats}>
             <div><div className={styles.statNum}>3x</div><div className={styles.statLabel}>founded</div></div>
-            <div><div className={styles.statNum}>$600k</div><div className={styles.statLabel}>raised</div></div>
+            <div><div className={styles.statNum}>$600k000</div><div className={styles.statLabel}>raised</div></div>
             <div><div className={styles.statNum}>1x</div><div className={styles.statLabel}>acquired</div></div>
             <div><div className={styles.statNum}>40k+</div><div className={styles.statLabel}>users built for</div></div>
           </div>
@@ -239,10 +328,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.contactGrid}>
           <a href="https://github.com/adhyys07" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>GitHub</div><div className={styles.contactHandle}>@adhyys07</div></a>
           <a href="https://x.com/AdhdhyanJ" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Twitter / X</div><div className={styles.contactHandle}>@AdhdhyanJ</div></a>
-          <a href="mailto:me@adhyys.cc" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Email</div><div className={styles.contactHandle}>adhdhyan@cucumbu.com</div></a>
+          <a href="mailto:me@adhyys.cc" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Email</div><div className={styles.contactHandle}>me@adhyys.cc</div></a>
           <a href="https://adhyys.itch.io" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Itch.io</div><div className={styles.contactHandle}>adhyys.itch.io</div></a>
           <a href="https://www.linkedin.com/in/adhdhyan/" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>LinkedIn</div><div className={styles.contactHandle}>/in/adhdhyan</div></a>
-          <a href="#" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Blogs</div><div className={styles.contactHandle}>foundersatmidnight.dev</div></a>
         </div>
       </section>
 

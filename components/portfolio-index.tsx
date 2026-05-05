@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { projects } from "@/lib/projects";
 
 import styles from "./portfolio-index.module.css";
 
@@ -39,45 +40,14 @@ const skills = [
   },
 ];
 
-const projects = [
-  {
-    name: "Voxcraft",
-    desc: "voxel destruction sandbox in Godot with custom physics chunks - 40k downloads on itch.io",
-    type: "Game · Indie",
-    year: "2024",
-  },
-  {
-    name: "Nexus Dashboard",
-    desc: "real-time analytics SaaS for indie game studios. MRR hit $8k before acqui-hire",
-    type: "SaaS · Startup",
-    year: "2023",
-  },
-  {
-    name: "bevy_netcode",
-    desc: "open source deterministic netcode library for the Bevy game engine - 900+ GitHub stars",
-    type: "Open Source",
-    year: "2023",
-  },
-  {
-    name: "Echoes of the Void",
-    desc: "48h jam horror game in Unity. won 'best atmosphere' at Ludum Dare 54",
-    type: "Game · Jam",
-    year: "2023",
-  },
-  {
-    name: "FoundersAtMidnight",
-    desc: "newsletter for builder-types - no VC fluff, just raw notes from building in public",
-    type: "Content",
-    year: "ongoing",
-  },
-];
-
 export default function PortfolioIndex({ fontClassName }: Props) {
   const rootRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+
+    root.classList.remove(styles.noJs);
 
     const cursor = root.querySelector<HTMLElement>("[data-cursor]");
     if (!cursor) return;
@@ -113,6 +83,22 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
     revealTargets.forEach((node) => observer.observe(node));
 
+    // Smooth scrolling for nav links
+    const handleNavClick = (e: Event) => {
+      e.preventDefault();
+      const link = e.target as HTMLAnchorElement;
+      const targetId = link.getAttribute("href")?.substring(1);
+      const targetElement = document.getElementById(targetId || "");
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    const navLinks = root.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]');
+    navLinks.forEach((link) => {
+      link.addEventListener("click", handleNavClick);
+    });
+
     return () => {
       document.removeEventListener("mousemove", moveCursor);
       hoverTargets.forEach((target) => {
@@ -120,11 +106,14 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         target.removeEventListener("mouseleave", onLeave);
       });
       observer.disconnect();
+      navLinks.forEach((link) => {
+        link.removeEventListener("click", handleNavClick);
+      });
     };
   }, []);
 
   return (
-    <main ref={rootRef} className={`${styles.page} ${fontClassName}`}>
+    <main ref={rootRef} className={`${styles.page} ${fontClassName} ${styles.noJs}`}>
       <div data-cursor className={styles.cursor} />
 
       <nav className={styles.nav}>
@@ -132,7 +121,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <ul className={styles.navLinks}>
           <li><a href="#skills">skills</a></li>
           <li><a href="#projects">projects</a></li>
+          <li><a href="/shipped">shipped</a></li>
           <li><a href="#startups">startups</a></li>
+          <li><a href="#blog">blog</a></li>
           <li><a href="#contact">contact</a></li>
         </ul>
         <div className={styles.navStatus}>
@@ -157,9 +148,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           <span className={`${styles.chip} ${styles.a}`}>Unity / Godot</span>
           <span className={`${styles.chip} ${styles.b}`}>TypeScript</span>
           <span className={`${styles.chip} ${styles.b}`}>React / Next.js</span>
-          <span className={`${styles.chip} ${styles.c}`}>3x Founder</span>
-          <span className={styles.chip}>open source</span>
-          <span className={styles.chip}>game jams</span>
+          <span className={`${styles.chip} ${styles.c}`}>open source</span>
+          <span className={`${styles.chip} ${styles.c}`}>game jams</span>
+          <span className={styles.chip}>Building Cucumbu</span>
         </div>
         <div className={styles.scrollHint}>
           <div className={styles.scrollLine} />
@@ -221,6 +212,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
       <section id="projects" className={styles.section}>
         <div className={styles.sectionLabel}>02 - things i&apos;ve shipped</div>
+        <p className={styles.sectionIntro} data-reveal>
+          a short list of the products and projects that made it into the world — games, tools, open source, and publisher-ready experiments.
+        </p>
         <div className={styles.projectsList}>
           {projects.map((project) => (
             <div key={project.name} className={styles.projectRow} data-hover data-reveal>
@@ -235,6 +229,11 @@ export default function PortfolioIndex({ fontClassName }: Props) {
             </div>
           ))}
         </div>
+        <div className={styles.projectActions}>
+          <a href="/shipped" className={styles.projectAction}>
+            View all shipped projects →
+          </a>
+        </div>
       </section>
 
       <hr className={styles.divider} />
@@ -243,23 +242,24 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.sectionLabel}>03 - the startup chapter</div>
         <div className={styles.startupBox} data-reveal>
           <div className={styles.startupHeadline}>
-              i&apos;ve started things,<br />
-              <em>broken things,</em><br />
-              and shipped anyway.
-            </div>
-            <p className={styles.startupBody}>
-              three startups over four years. one acqui-hired, one still running, one beautifully dead.
-              i started <strong>Building Not Found</strong> and led its early fundraising efforts.
-              i&apos;ve pitched in SF, built with co-founders across timezones, and learned that the best code in the world means nothing if nobody uses it.
-            </p>
-            <p className={styles.startupBody}>
-              now i help other early-stage founders avoid the mistakes i made — and make some interesting new ones together.
-            </p>
+            one startup in motion,<br />
+            <em>still in R&amp;D and prototype mode,</em><br />
+            still figuring out the right launch.
+          </div>
+          <p className={styles.startupBody}>
+            today i&apos;m focused on one thing: <a href="https://cucumbu.com" target="_blank" rel="noreferrer noopener" className={styles.startupLink}>cucumbu.com</a>.
+            it&apos;s an early-stage workspace AI assistant that helps teams automate meeting follow ups, summarize context, and turn conversations into action without the noise.
+          </p>
+          <p className={styles.startupBody}>
+            right now it&apos;s in research and prototyping — bootstrapped, unfunded, and being tested around workflow loops.
+            the goal is to ship something that actually saves time, not just another productivity promise.
+          </p>
+          
           <div className={styles.startupStats}>
-            <div><div className={styles.statNum}>3x</div><div className={styles.statLabel}>founded</div></div>
-            <div><div className={styles.statNum}>$600k</div><div className={styles.statLabel}>raised</div></div>
-            <div><div className={styles.statNum}>1x</div><div className={styles.statLabel}>acquired</div></div>
-            <div><div className={styles.statNum}>40k+</div><div className={styles.statLabel}>users built for</div></div>
+            <div><div className={styles.statNum}>1x</div><div className={styles.statLabel}>startup in focus</div></div>
+            <div><div className={styles.statNum}>bootstrapped</div><div className={styles.statLabel}>status</div></div>
+            <div><div className={styles.statNum}>R&amp;D</div><div className={styles.statLabel}>phase</div></div>
+            <div><div className={styles.statNum}>early</div><div className={styles.statLabel}>prototype</div></div>
           </div>
         </div>
       </section>
@@ -270,7 +270,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.sectionLabel}>05 - Blogs</div>
         <div className={styles.blogBox} data-reveal>
           <div className={styles.blogHeadline}>
-            notes & essays
+            Blogs
           </div>
           <p className={styles.blogBody}>
             i write about building products, shipping games, and learning in public.
@@ -292,10 +292,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.contactGrid}>
           <a href="https://github.com/adhyys07" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>GitHub</div><div className={styles.contactHandle}>@adhyys07</div></a>
           <a href="https://x.com/AdhdhyanJ" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Twitter / X</div><div className={styles.contactHandle}>@AdhdhyanJ</div></a>
-          <a href="mailto:adhdhyan@cucumbu.com" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Email</div><div className={styles.contactHandle}>adhdhyan@cucumbu.com</div></a>
+          <a href="mailto:me@adhyys.cc" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Email</div><div className={styles.contactHandle}>me@adhyys.cc</div></a>
           <a href="https://adhyys.itch.io" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Itch.io</div><div className={styles.contactHandle}>adhyys.itch.io</div></a>
           <a href="https://www.linkedin.com/in/adhdhyan/" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>LinkedIn</div><div className={styles.contactHandle}>/in/adhdhyan</div></a>
-          <a href="#" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Blogs</div><div className={styles.contactHandle}>foundersatmidnight.dev</div></a>
         </div>
       </section>
 
