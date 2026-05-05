@@ -239,7 +239,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         <div className={styles.contactGrid}>
           <a href="https://github.com/adhyys07" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>GitHub</div><div className={styles.contactHandle}>@adhyys07</div></a>
           <a href="https://x.com/AdhdhyanJ" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Twitter / X</div><div className={styles.contactHandle}>@AdhdhyanJ</div></a>
-          <a href="mailto:adhdhyan@cucumbu.com" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Email</div><div className={styles.contactHandle}>adhdhyan@cucumbu.com</div></a>
+          <a href="mailto:me@adhyys.cc" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Email</div><div className={styles.contactHandle}>adhdhyan@cucumbu.com</div></a>
           <a href="https://adhyys.itch.io" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Itch.io</div><div className={styles.contactHandle}>adhyys.itch.io</div></a>
           <a href="https://www.linkedin.com/in/adhdhyan/" target="_blank" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>LinkedIn</div><div className={styles.contactHandle}>/in/adhdhyan</div></a>
           <a href="#" className={styles.contactCard} data-hover data-reveal><div className={styles.contactPlatform}>Blogs</div><div className={styles.contactHandle}>foundersatmidnight.dev</div></a>
