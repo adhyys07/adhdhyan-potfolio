@@ -10,6 +10,8 @@ type Props = {
   fontClassName: string;
 };
 
+const featuredProjects = projects.slice(0, 5);
+
 const skills = [
   {
     icon: "⬡",
@@ -218,7 +220,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           a short list of the products and projects that made it into the world — games, tools, open source, and publisher-ready experiments.
         </p>
         <div className={styles.projectsList}>
-          {projects.map((project) => (
+          {featuredProjects.map((project) => (
             <a
               key={project.name}
               href={project.url}
