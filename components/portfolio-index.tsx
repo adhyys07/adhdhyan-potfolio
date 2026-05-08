@@ -217,7 +217,15 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </p>
         <div className={styles.projectsList}>
           {projects.map((project) => (
-            <div key={project.name} className={styles.projectRow} data-hover data-reveal>
+            <a
+              key={project.name}
+              href={project.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className={styles.projectRow}
+              data-hover
+              data-reveal
+            >
               <div>
                 <div className={styles.projectName}>{project.name}</div>
                 <div className={styles.projectDesc}>{project.desc}</div>
@@ -226,7 +234,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
                 <div className={styles.projectType}>{project.type}</div>
                 <div className={styles.projectYear}>{project.year}</div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
         <div className={styles.projectActions}>

@@ -1,4 +1,5 @@
 import { projects } from "@/lib/projects";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -12,18 +13,24 @@ export default function ShippedPage() {
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
-            <p className={styles.label}>02 - things i've shipped</p>
+            <p className={styles.label}>02 - things i&apos;ve shipped</p>
             <h1 className={styles.title}>Launched work, products, and experiments.</h1>
           </div>
           <p className={styles.lead}>
-            This page collects the things that have shipped — games, open source tools, startup products, and writing projects that made it into the world.
-            If you want the current work, head back home to see what i'm building now.
+            This page collects the things that have shipped - games, open source tools, startup products, and writing projects that made it into the world.
+            If you want the current work, head back home to see what i&apos;m building now.
           </p>
         </header>
 
         <section className={styles.projectGrid}>
           {projects.map((project) => (
-            <article key={project.name} className={styles.projectCard}>
+            <a
+              key={project.name}
+              href={project.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className={styles.projectCard}
+            >
               <div className={styles.projectHeading}>
                 <div className={styles.projectName}>{project.name}</div>
                 <div className={styles.projectType}>{project.type}</div>
@@ -32,13 +39,13 @@ export default function ShippedPage() {
               <div className={styles.projectMeta}>
                 <span className={styles.projectYear}>{project.year}</span>
               </div>
-            </article>
+            </a>
           ))}
         </section>
 
-        <a href="/" className={styles.backLink}>
-          ← Back to portfolio
-        </a>
+        <Link href="/" className={styles.backLink}>
+          Back to portfolio
+        </Link>
       </div>
     </main>
   );
