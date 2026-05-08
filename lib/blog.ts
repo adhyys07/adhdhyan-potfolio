@@ -28,6 +28,19 @@ const POSTS_FILE_PATH = path.join(process.cwd(), "data", "posts.json");
 
 const defaultPosts: BlogPost[] = [
   {
+    slug: "blog-post-template",
+    title: "Your First Blog Post Template",
+    excerpt:
+      "Use this template as a starting point for writing your own blog posts. Edit or delete this once you're ready.",
+    category: "Template",
+    publishedAt: "2026-05-06",
+    readingTime: "2 min read",
+    tags: ["template", "example"],
+    featured: false,
+    content:
+      "## Welcome to your blog\n\nThis is a template post that you can use as a reference. To create a new post, use the dev login and the blog editor modal.\n\n## How to write a post\n\n1. Click the add post button (visible when logged in as dev)\n2. Fill in the title, excerpt, category, and tags\n3. Write your content in markdown format\n4. Save and it will be published immediately\n\n## Markdown support\n\nYou can use standard markdown:\n- **bold text**\n- *italic text*\n- `code snippets`\n- [links](https://example.com)\n- Lists and more\n\n## Next steps\n\nDelete this post once you've created your own. Happy writing!",
+  },
+  {
     slug: "designing-a-blog-system",
     title: "Designing a blog system that stays simple to maintain",
     excerpt:

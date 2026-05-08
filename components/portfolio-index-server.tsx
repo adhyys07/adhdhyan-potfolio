@@ -178,9 +178,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
             <div><span className={styles.tPrompt}>~/dev $</span> <span className={styles.tCmd}>cat about.txt</span></div>
             <div className={styles.tOut}>name: Adhdhyan</div>
             <div className={styles.tOut}>location: building from a bedroom somewhere</div>
-            <div className={styles.tOut}>current: working on a physics-based puzzle game + a B2B SaaS</div>
-            <div className={styles.tOut}>previously: shipped 4 games, raised $600k, got acquired once</div>
-            <div className={styles.tOut}>favourite lang: Rust (but TypeScript pays the bills)</div>
+            <div className={styles.tOut}>current: shipping projects for Hack Club + a B2B SaaS</div>
+            <div className={styles.tOut}>previously: shipped 2 games, , got acquired once</div>
+            <div className={styles.tOut}>favourite lang: Python (but TypeScript pays the bills)</div>
             <div className={styles.tOut}>vibe: chaotic good</div>
             <br />
             <div><span className={styles.tPrompt}>~/dev $</span> <span className={styles.tCmd}>cat now.txt</span></div>
@@ -312,7 +312,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
             i write about building products, shipping games, and learning in public.
             no marketing fluff—just raw thoughts on engineering, startups, and what I'm learning.
           </p>
-          <Link href="/writing" className={styles.blogLink}>
+          <Link href="/blogs" className={styles.blogLink}>
             read all posts →
           </Link>
         </div>

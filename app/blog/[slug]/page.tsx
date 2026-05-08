@@ -8,5 +8,5 @@ type BlogSlugRedirectPageProps = {
 
 export default async function BlogSlugRedirectPage({ params }: BlogSlugRedirectPageProps) {
   const { slug } = await params;
-  redirect(`/writing/${slug}`);
+  redirect(`/blogs/${slug}`);
 }

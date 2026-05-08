@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { projects } from "@/lib/projects";
 
 import styles from "./portfolio-index.module.css";
@@ -48,6 +49,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
     if (!root) return;
 
     root.classList.remove(styles.noJs);
+    root.classList.add(styles.jsReady);
 
     const cursor = root.querySelector<HTMLElement>("[data-cursor]");
     if (!cursor) return;
@@ -140,7 +142,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           <span>i build things.</span>
         </h1>
         <p className={styles.heroBio}>
-          a <strong>software engineer</strong> who ships games at midnight and pitches startups in the morning.
+          a <strong>wannabe developer</strong> who ships games at midnight and pitches startups in the morning.
           i write code that runs in browsers, engines, and production servers simultaneously.
           obsessed with clean architecture, weird game mechanics, and <strong>building companies from scratch</strong>.
         </p>
@@ -282,11 +284,11 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           </div>
           <p className={styles.blogBody}>
             i write about building products, shipping games, and learning in public.
-            no marketing fluff—just raw thoughts on engineering, startups, and what I'm learning.
+            no marketing fluff - just raw thoughts on engineering, startups, and what I&apos;m learning.
           </p>
-          <a href="/writing" className={styles.blogLink}>
+          <Link href="/blogs" className={styles.blogLink}>
             read all posts →
-          </a>
+          </Link>
         </div>
       </section>
 
