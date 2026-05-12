@@ -25,7 +25,7 @@ const skills = [
     icon: "◎",
     name: "Startup Building",
     desc: "not just code - i have done the full loop. idea, mvp, fundraising, launch, growth. failed fast, learned faster.",
-    tags: ["product", "fundraising", "growth", "hiring"],
+    tags: ["product", "fundraising", "growth"],
     tone: styles.pink,
   },
   {
@@ -310,7 +310,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           </div>
           <p className={styles.blogBody}>
             i write about building products, shipping games, and learning in public.
-            no marketing fluff—just raw thoughts on engineering, startups, and what I'm learning.
+            no marketing fluff—just raw thoughts on engineering, startups, and what I&apos;m learning.
           </p>
           <Link href="/blogs" className={styles.blogLink}>
             read all posts →
@@ -336,7 +336,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
       <footer className={styles.footer}>
         <span>made with caffeine and questionable life choices</span>
-        <span><a href="#">source</a> · <a href="#">pgp</a> · <a href="#">rss</a></span>
+        <span><a href="#">source</a> · <a href="/pgp">pgp</a> · <a href="/rss.xml">rss</a></span>
       </footer>
 
       <PortfolioIndexClient />

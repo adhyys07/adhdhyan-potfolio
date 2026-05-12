@@ -11,6 +11,12 @@ export default function WritingPageClient({ isLoggedIn }: Props) {
   const [loginOpen, setLoginOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn);
 
+  async function handleLogout() {
+    await fetch("/api/dev-login", { method: "DELETE" });
+    setLoggedIn(false);
+    window.location.reload();
+  }
+
   return (
     <>
       {!loggedIn ? (
@@ -24,11 +30,7 @@ export default function WritingPageClient({ isLoggedIn }: Props) {
       ) : (
         <button
           type="button"
-          onClick={() => {
-            setLoggedIn(false);
-            document.cookie = "blog_admin=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            window.location.reload();
-          }}
+          onClick={handleLogout}
           className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/70 transition-colors hover:border-white/25 hover:text-white"
         >
           Logout
@@ -37,7 +39,8 @@ export default function WritingPageClient({ isLoggedIn }: Props) {
 
       <DevLoginModal
         isOpen={loginOpen}
-        onClose={() => {
+        onClose={() => setLoginOpen(false)}
+        onAuthenticated={() => {
           setLoginOpen(false);
           setLoggedIn(true);
           window.location.reload();

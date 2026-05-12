@@ -14,6 +14,7 @@ export type BlogPost = {
 };
 
 export type BlogPostInput = {
+  originalSlug?: string;
   slug?: string;
   title: string;
   excerpt: string;
@@ -169,11 +170,23 @@ export function upsertPost(input: BlogPostInput) {
     readingTime: calculateReadingTime(input.content),
   };
 
-  const index = posts.findIndex((post) => post.slug === slug);
+  const originalSlug = input.originalSlug ? slugify(input.originalSlug) : slug;
+  const index = posts.findIndex((post) => post.slug === originalSlug);
 
   if (index === -1) {
+    if (posts.some((post) => post.slug === slug)) {
+      throw new Error("A post with that slug already exists.");
+    }
     posts.push(nextPost);
   } else {
+    const slugTakenByAnotherPost = posts.some((post, postIndex) => {
+      return postIndex !== index && post.slug === slug;
+    });
+
+    if (slugTakenByAnotherPost) {
+      throw new Error("A post with that slug already exists.");
+    }
+
     posts[index] = nextPost;
   }
 
@@ -181,4 +194,19 @@ export function upsertPost(input: BlogPostInput) {
   fs.writeFileSync(POSTS_FILE_PATH, JSON.stringify(sorted, null, 2), "utf-8");
 
   return nextPost;
+}
+
+export function deletePost(slug: string) {
+  ensurePostsFile();
+
+  const normalizedSlug = slugify(slug);
+  const posts = getAllPosts();
+  const nextPosts = posts.filter((post) => post.slug !== normalizedSlug);
+
+  if (nextPosts.length === posts.length) {
+    return false;
+  }
+
+  fs.writeFileSync(POSTS_FILE_PATH, JSON.stringify(nextPosts, null, 2), "utf-8");
+  return true;
 }

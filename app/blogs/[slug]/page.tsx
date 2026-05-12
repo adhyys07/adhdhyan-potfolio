@@ -48,7 +48,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
   const contentHtml = markdownToHtml(post.content);
 
   return (
-    <main style={{ minHeight: "100vh", background: "#0b0b0e", color: "#f3f3f3" }}>
+    <main style={{ minHeight: "100vh", background: "#0c0c0f", color: "#e8e6e0" }}>
       <div className="mx-auto w-full max-w-4xl px-6 py-8 sm:px-10 lg:px-12 lg:py-10">
         <article style={{ marginBottom: "40px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "40px" }}>
           <div style={{ marginBottom: "30px" }}>
@@ -56,15 +56,15 @@ export default async function BlogPostPage({ params }: PostPageProps) {
               href="/blogs"
               style={{ color: "#d4f060", textDecoration: "none", fontSize: "0.95rem" }}
             >
-              ← Back to blogs
+              Back to blogs
             </Link>
           </div>
 
           <div style={{ marginBottom: "30px" }}>
             <p style={{ fontSize: "10px", letterSpacing: "0.25em", color: "#9ca3af", textTransform: "uppercase", marginBottom: "10px" }}>
-              {post.category} · {formatPublishedDate(post.publishedAt)} · {post.readingTime}
+              {post.category} / {formatPublishedDate(post.publishedAt)} / {post.readingTime}
             </p>
-            <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: "1.1", fontFamily: "Instrument Serif, serif", margin: "0 0 20px", color: "#f3f3f3" }}>
+            <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: "1.1", fontFamily: "var(--font-instrument-serif), serif", margin: "0 0 20px", color: "#e8e6e0" }}>
               {post.title}
             </h1>
             <p style={{ color: "#c4c4c4", fontSize: "1rem", lineHeight: "1.7", maxWidth: "600px" }}>
@@ -89,11 +89,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
           </div>
 
           <div
-            style={{
-              color: "#c4c4c4",
-              lineHeight: "1.7",
-              fontSize: "0.95rem",
-            }}
+            className="blog-prose"
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
         </article>
@@ -113,7 +109,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
                 <p style={{ fontSize: "10px", letterSpacing: "0.25em", color: "#9ca3af", textTransform: "uppercase", marginBottom: "10px" }}>
                   Related
                 </p>
-                <h3 style={{ fontSize: "1.3rem", fontFamily: "Instrument Serif, serif", margin: "10px 0", color: "#f3f3f3" }}>
+                <h3 style={{ fontSize: "1.3rem", fontFamily: "var(--font-instrument-serif), serif", margin: "10px 0", color: "#e8e6e0" }}>
                   {relatedPost.title}
                 </h3>
                 <p style={{ color: "#c4c4c4", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "15px" }}>
@@ -123,7 +119,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
                   href={`/blogs/${relatedPost.slug}`}
                   style={{ color: "#d4f060", textDecoration: "none", fontSize: "0.95rem" }}
                 >
-                  Read this next →
+                  Read this next
                 </Link>
               </article>
             ))}

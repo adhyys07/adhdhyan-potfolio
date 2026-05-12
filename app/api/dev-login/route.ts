@@ -29,8 +29,21 @@ export async function POST(req: NextRequest) {
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path : "/",
-    maxAge: 60 * 60 * 8 , // 7 days
+    maxAge: 60 * 60 * 8,
   });
 
   return response;
-  }
+}
+
+export function DELETE() {
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set("blog_admin", "", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0,
+  });
+
+  return response;
+}

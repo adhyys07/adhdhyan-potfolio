@@ -5,9 +5,10 @@ import { useState } from "react";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onAuthenticated: () => void;
 };
 
-export default function DevLoginModal({ isOpen, onClose }: Props) {
+export default function DevLoginModal({ isOpen, onClose, onAuthenticated }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,8 +35,7 @@ export default function DevLoginModal({ isOpen, onClose }: Props) {
 
       setUsername("");
       setPassword("");
-      onClose();
-      window.location.reload();
+      onAuthenticated();
     } catch {
       setError("Could not connect to server.");
     } finally {

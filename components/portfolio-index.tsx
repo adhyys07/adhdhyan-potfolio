@@ -31,7 +31,7 @@ const skills = [
     icon: "◎",
     name: "Startup Building",
     desc: "not just code - i have done the full loop. idea, mvp, fundraising, launch, growth. failed fast, learned faster.",
-    tags: ["product", "fundraising", "growth", "hiring"],
+    tags: ["product", "fundraising", "growth"],
     tone: styles.pink,
   },
   {
@@ -144,9 +144,9 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           <span>i build things.</span>
         </h1>
         <p className={styles.heroBio}>
-          a <strong>wannabe developer</strong> who ships games at midnight and pitches startups in the morning.
+          a <strong>developer</strong> who ships games at midnight and pitches startups in the morning.
           i write code that runs in browsers, engines, and production servers simultaneously.
-          obsessed with clean architecture, weird game mechanics, and <strong>building companies from scratch</strong>.
+          obsessed with clean architecture, weird game mechanics, and <strong>building startup from scratch</strong>.
         </p>
         <div className={styles.heroChips}>
           <span className={`${styles.chip} ${styles.a}`}>Unity / Godot</span>
@@ -198,14 +198,14 @@ export default function PortfolioIndex({ fontClassName }: Props) {
             <div className={styles.tOut}>name: Adhdhyan</div>
             <div className={styles.tOut}>location: building from a bedroom somewhere</div>
             <div className={styles.tOut}>current: working on a physics-based puzzle game + a B2B SaaS</div>
-            <div className={styles.tOut}>previously: shipped 4 games, raised $600k, got acquired once</div>
-            <div className={styles.tOut}>favourite lang: Rust (but TypeScript pays the bills)</div>
+            <div className={styles.tOut}>previously: shipped 3 games, started a <u><a href="https://ysws.hackclub.com" target="_blank">You Ship,We Ship</a></u>,organized a game jam</div>
+            <div className={styles.tOut}>favourite lang: Python (but TypeScript pays the bills)</div>
             <div className={styles.tOut}>vibe: chaotic good</div>
             <br />
             <div><span className={styles.tPrompt}>~/dev $</span> <span className={styles.tCmd}>cat now.txt</span></div>
-            <div className={styles.tOut}>-&gt; shipping a game jam project every month in 2025</div>
-            <div className={styles.tOut}>-&gt; writing a tiny ECS engine in Rust, just for fun</div>
-            <div className={styles.tOut}>-&gt; growing foundersatmidnight.dev newsletter to 10k</div>
+            <div className={styles.tOut}>-&gt; volunteering and shipping projects at Hack Club</div>
+            <div className={styles.tOut}>-&gt; working on a custom firmware and OS for a dedicated game console</div>
+            <div className={styles.tOut}>-&gt; building Cucumbu, an AI based startup from scratch </div>
             <br />
             <div><span className={styles.tPrompt}>~/dev $</span> <span className={styles.tCursor} /></div>
           </div>
@@ -312,7 +312,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
       <footer className={styles.footer}>
         <span>made with caffeine and questionable life choices</span>
-        <span><a href="#">source</a> · <a href="#">pgp</a> · <a href="#">rss</a></span>
+        <span><a href="https://github.com/adhyys07/adhdhyan-potfolio">source</a> · <a href="/pgp">pgp</a> · <a href="/rss.xml">rss</a></span>
       </footer>
     </main>
   );
