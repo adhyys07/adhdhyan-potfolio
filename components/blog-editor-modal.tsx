@@ -1,6 +1,15 @@
 "use client";
 
-import { type ChangeEvent, type ClipboardEvent, type DragEvent, useMemo, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  type ClipboardEvent,
+  type DragEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { markdownToHtml } from "@/lib/markdown";
 import styles from "./blog-editor-modal.module.css";
@@ -19,6 +28,7 @@ type BlogPost = {
 
 type Props = {
   posts: BlogPost[];
+  controls?: "toolbar" | "none";
 };
 
 type Mode = "create" | "edit" | "delete";
@@ -60,11 +70,10 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export default function BlogEditorModal({ posts }: Props) {
+export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<Mode>("create");
-  const [selectedSlug, setSelectedSlug] = useState("");
   const [originalSlug, setOriginalSlug] = useState("");
   const [showPreview, setShowPreview] = useState(true);
 
@@ -85,7 +94,6 @@ export default function BlogEditorModal({ posts }: Props) {
     status.startsWith("Saved") || status.startsWith("Deleted") || status.startsWith("Image uploaded");
 
   function resetCreateForm() {
-    setSelectedSlug("");
     setOriginalSlug("");
     setSlug("");
     setTitle("");
@@ -98,11 +106,10 @@ export default function BlogEditorModal({ posts }: Props) {
     setStatus("");
   }
 
-  function loadForEdit(nextSlug: string) {
+  const loadForEdit = useCallback((nextSlug: string) => {
     const post = posts.find((item) => item.slug === nextSlug);
     if (!post) return;
 
-    setSelectedSlug(nextSlug);
     setOriginalSlug(post.slug);
     setSlug(post.slug);
     setTitle(post.title);
@@ -113,7 +120,7 @@ export default function BlogEditorModal({ posts }: Props) {
     setFeatured(post.featured);
     setContent(post.content);
     setStatus("");
-  }
+  }, [posts]);
 
   function openCreate() {
     setMode("create");
@@ -121,21 +128,35 @@ export default function BlogEditorModal({ posts }: Props) {
     setIsOpen(true);
   }
 
-  function openEdit() {
+  const openEditForPost = useCallback((nextSlug: string) => {
     setMode("edit");
-    if (posts.length > 0) {
-      loadForEdit(posts[0].slug);
-    }
+    loadForEdit(nextSlug);
     setIsOpen(true);
-  }
+  }, [loadForEdit]);
 
-  function openDelete() {
+  const openDeleteForPost = useCallback((nextSlug: string) => {
     setMode("delete");
-    if (posts.length > 0) {
-      loadForEdit(posts[0].slug);
-    }
+    loadForEdit(nextSlug);
     setIsOpen(true);
-  }
+  }, [loadForEdit]);
+
+  useEffect(() => {
+    function handleOpenEvent(event: Event) {
+      const { mode: nextMode, slug: nextSlug } = (event as CustomEvent<{ mode?: Mode; slug?: string }>).detail ?? {};
+
+      if ((nextMode !== "edit" && nextMode !== "delete") || !nextSlug) return;
+
+      if (nextMode === "edit") {
+        openEditForPost(nextSlug);
+        return;
+      }
+
+      openDeleteForPost(nextSlug);
+    }
+
+    window.addEventListener("blog-editor-open", handleOpenEvent);
+    return () => window.removeEventListener("blog-editor-open", handleOpenEvent);
+  }, [openDeleteForPost, openEditForPost]);
 
   function closeModal() {
     setIsOpen(false);
@@ -323,27 +344,13 @@ export default function BlogEditorModal({ posts }: Props) {
 
   return (
     <>
-      <div className={styles.actions}>
-        <button type="button" onClick={openCreate} className={styles.button}>
-          Add blog
-        </button>
-        <button
-          type="button"
-          onClick={openEdit}
-          disabled={posts.length === 0}
-          className={styles.ghostButton}
-        >
-          Edit existing
-        </button>
-        <button
-          type="button"
-          onClick={openDelete}
-          disabled={posts.length === 0}
-          className={styles.dangerButton}
-        >
-          Delete blog
-        </button>
-      </div>
+      {controls === "toolbar" ? (
+        <div className={styles.actions}>
+          <button type="button" onClick={openCreate} className={styles.button}>
+            Add blog
+          </button>
+        </div>
+      ) : null}
 
       {isOpen ? (
         <div className={styles.overlay} onClick={closeModal}>
@@ -363,26 +370,6 @@ export default function BlogEditorModal({ posts }: Props) {
             </header>
 
             <div className={styles.body}>
-              {mode !== "create" ? (
-                <section className={styles.section}>
-                  <h3 className={styles.sectionTitle}>Post picker</h3>
-                  <label className={styles.label}>
-                    Existing post
-                    <select
-                      value={selectedSlug}
-                      onChange={(event) => loadForEdit(event.target.value)}
-                      className={styles.select}
-                    >
-                      {posts.map((post) => (
-                        <option key={post.slug} value={post.slug}>
-                          {post.title}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </section>
-              ) : null}
-
               {mode === "delete" ? (
                 <section className={styles.section}>
                   <h3 className={styles.sectionTitle}>Delete confirmation</h3>
@@ -569,5 +556,32 @@ export default function BlogEditorModal({ posts }: Props) {
         </div>
       ) : null}
     </>
+  );
+}
+
+export function BlogInlineActions({ slug }: { slug: string }) {
+  return (
+    <span className={styles.inlineActions}>
+      <button
+        type="button"
+        onClick={() => {
+          const event = new CustomEvent("blog-editor-open", { detail: { mode: "edit", slug } });
+          window.dispatchEvent(event);
+        }}
+        className={styles.inlineButton}
+      >
+        Edit
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          const event = new CustomEvent("blog-editor-open", { detail: { mode: "delete", slug } });
+          window.dispatchEvent(event);
+        }}
+        className={styles.inlineDangerButton}
+      >
+        Delete
+      </button>
+    </span>
   );
 }

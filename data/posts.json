@@ -1,20 +1,5 @@
 [
   {
-    "slug": "writing-case-studies-that-read-fast",
-    "title": "Writing case studies that still read quickly on mobile",
-    "excerpt": "A layout pattern for turning longer write-ups into something scannable without losing depth.",
-    "category": "Writing",
-    "publishedAt": "2026-04-10",
-    "readingTime": "4 min read",
-    "tags": [
-      "editing",
-      "layout",
-      "ux"
-    ],
-    "featured": true,
-    "content": "## Lead with the outcome\n\nMobile readers need the conclusion before the context. The strongest page structure opens with a clear claim, then uses short sections to explain the decisions behind it.\n\n## Use rhythm instead of density\n\nAlternating headings, pull quotes, and short paragraphs creates a pace that feels lighter than a single long wall of text."
-  },
-  {
     "slug": "what-to-track-in-a-portfolio-blog",
     "title": "What to track in a portfolio blog after launch",
     "excerpt": "A lightweight checklist for understanding which posts and sections actually get attention.",

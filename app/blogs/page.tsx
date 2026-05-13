@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 import { formatPublishedDate, getAllPosts } from "@/lib/blog";
 import WritingPageClient from "@/components/writing-page-client";
-import BlogEditorModal from "@/components/blog-editor-modal";
+import BlogEditorModal, { BlogInlineActions } from "@/components/blog-editor-modal";
 
 export const metadata = {
   title: "Blogs",
@@ -48,17 +48,20 @@ export default async function BlogsPage() {
           <ul className="space-y-5">
             {posts.map((post) => (
               <li key={post.slug} className="group">
-                <Link
-                  href={`/blogs/${post.slug}`}
-                  className="flex items-end gap-3 text-base leading-tight text-[#f4f4f4] transition-colors hover:text-[#d4f060] sm:text-[17px]"
-                  style={{ textDecoration: "none" }}
-                >
-                  <span className="whitespace-nowrap">{post.title}</span>
-                  <span className="mb-[6px] flex-1 border-b border-white/10" />
-                  <span className="shrink-0 text-xs text-white/35 sm:text-sm">
-                    {formatPublishedDate(post.publishedAt)}
-                  </span>
-                </Link>
+                <div className="flex flex-wrap items-end gap-3">
+                  <Link
+                    href={`/blogs/${post.slug}`}
+                    className="flex min-w-0 flex-1 items-end gap-3 text-base leading-tight text-[#f4f4f4] transition-colors hover:text-[#d4f060] sm:text-[17px]"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <span className="min-w-0 break-words">{post.title}</span>
+                    <span className="mb-[6px] min-w-8 flex-1 border-b border-white/10" />
+                    <span className="shrink-0 text-xs text-white/35 sm:text-sm">
+                      {formatPublishedDate(post.publishedAt)}
+                    </span>
+                  </Link>
+                  {isLoggedIn ? <BlogInlineActions slug={post.slug} /> : null}
+                </div>
               </li>
             ))}
           </ul>

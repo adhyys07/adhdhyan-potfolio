@@ -3,7 +3,7 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 const IMAGE_DIR = path.join(process.cwd(), "public", "blog-images");
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 20 * 1024 * 1024;
 const ALLOWED_TYPES = new Map([
   ["image/jpeg", "jpg"],
   ["image/png", "png"],
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    return NextResponse.json({ error: "Images must be 5MB or smaller" }, { status: 400 });
+    return NextResponse.json({ error: "Images must be 20MB or smaller" }, { status: 400 });
   }
 
   await fs.mkdir(IMAGE_DIR, { recursive: true });
