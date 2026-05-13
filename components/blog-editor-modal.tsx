@@ -33,6 +33,20 @@ type Props = {
 
 type Mode = "create" | "edit" | "delete";
 
+type BlogDraft = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  publishedAt: string;
+  tags: string;
+  featured: boolean;
+  content: string;
+  savedAt: string;
+};
+
+const DRAFT_KEY_PREFIX = "blog-editor-draft:";
+
 const defaultMarkdown = `## Start here
 
 Write the sharpest version of the idea first. Keep the intro short, then make the useful part easy to scan.
@@ -70,12 +84,27 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function getDraftKey(mode: Mode, originalSlug: string) {
+  if (mode === "create") return `${DRAFT_KEY_PREFIX}new`;
+  if (mode === "edit" && originalSlug) return `${DRAFT_KEY_PREFIX}${originalSlug}`;
+  return "";
+}
+
+function formatDraftTime(value: string) {
+  return new Intl.DateTimeFormat("en", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
 export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<Mode>("create");
   const [originalSlug, setOriginalSlug] = useState("");
   const [showPreview, setShowPreview] = useState(true);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
   const [slug, setSlug] = useState("");
   const [title, setTitle] = useState("");
@@ -88,8 +117,11 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [status, setStatus] = useState("");
+  const [autoSaveStatus, setAutoSaveStatus] = useState("");
 
   const previewHtml = useMemo(() => markdownToHtml(content), [content]);
+  const draftKey = getDraftKey(mode, originalSlug);
+  const canDiscardDraft = isOpen && mode !== "delete" && draftKey.length > 0;
   const isSuccess =
     status.startsWith("Saved") || status.startsWith("Deleted") || status.startsWith("Image uploaded");
 
@@ -104,6 +136,7 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
     setFeatured(false);
     setContent(defaultMarkdown);
     setStatus("");
+    setAutoSaveStatus("");
   }
 
   const loadForEdit = useCallback((nextSlug: string) => {
@@ -122,23 +155,67 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
     setStatus("");
   }, [posts]);
 
+  const restoreDraft = useCallback((key: string) => {
+    try {
+      const rawDraft = window.localStorage.getItem(key);
+      if (!rawDraft) return false;
+
+      const draft = JSON.parse(rawDraft) as Partial<BlogDraft>;
+
+      setSlug(draft.slug ?? "");
+      setTitle(draft.title ?? "");
+      setExcerpt(draft.excerpt ?? "");
+      setCategory(draft.category ?? "General");
+      setPublishedAt(draft.publishedAt ?? today());
+      setTags(draft.tags ?? "");
+      setFeatured(Boolean(draft.featured));
+      setContent(draft.content ?? defaultMarkdown);
+      setAutoSaveStatus(
+        draft.savedAt ? `Restored local draft from ${formatDraftTime(draft.savedAt)}.` : "Restored local draft.",
+      );
+      setStatus("");
+      return true;
+    } catch {
+      setAutoSaveStatus("Could not restore local draft.");
+      return false;
+    }
+  }, []);
+
   function openCreate() {
     setMode("create");
     resetCreateForm();
+    restoreDraft(`${DRAFT_KEY_PREFIX}new`);
     setIsOpen(true);
   }
 
   const openEditForPost = useCallback((nextSlug: string) => {
     setMode("edit");
     loadForEdit(nextSlug);
+    restoreDraft(`${DRAFT_KEY_PREFIX}${nextSlug}`);
     setIsOpen(true);
-  }, [loadForEdit]);
+  }, [loadForEdit, restoreDraft]);
 
   const openDeleteForPost = useCallback((nextSlug: string) => {
     setMode("delete");
     loadForEdit(nextSlug);
     setIsOpen(true);
   }, [loadForEdit]);
+
+  function clearDraft(key = draftKey) {
+    if (!key) return;
+
+    try {
+      window.localStorage.removeItem(key);
+      setAutoSaveStatus("");
+    } catch {
+      setAutoSaveStatus("Could not clear local draft.");
+    }
+  }
+
+  function discardDraft() {
+    clearDraft();
+    closeModal();
+  }
 
   useEffect(() => {
     function handleOpenEvent(event: Event) {
@@ -158,9 +235,39 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
     return () => window.removeEventListener("blog-editor-open", handleOpenEvent);
   }, [openDeleteForPost, openEditForPost]);
 
+  useEffect(() => {
+    if (!isOpen || mode === "delete" || !draftKey) return;
+
+    const timeout = window.setTimeout(() => {
+      const savedAt = new Date().toISOString();
+      const draft: BlogDraft = {
+        slug,
+        title,
+        excerpt,
+        category,
+        publishedAt,
+        tags,
+        featured,
+        content,
+        savedAt,
+      };
+
+      try {
+        window.localStorage.setItem(draftKey, JSON.stringify(draft));
+        setAutoSaveStatus(`Draft autosaved locally at ${formatDraftTime(savedAt)}.`);
+      } catch {
+        setAutoSaveStatus("Could not autosave draft locally.");
+      }
+    }, 500);
+
+    return () => window.clearTimeout(timeout);
+  }, [category, content, draftKey, excerpt, featured, isOpen, mode, publishedAt, slug, tags, title]);
+
   function closeModal() {
     setIsOpen(false);
     setStatus("");
+    setDeleteConfirmOpen(false);
+    setDeleteConfirmText("");
   }
 
   function insertMarkdown(left: string, right = "", placeholder = "") {
@@ -305,6 +412,7 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
         return;
       }
 
+      clearDraft();
       setStatus("Saved successfully. Reloading...");
       window.setTimeout(() => window.location.reload(), 700);
     } catch {
@@ -316,8 +424,12 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
 
   async function handleDelete() {
     if ((mode !== "edit" && mode !== "delete") || !originalSlug) return;
-    const confirmed = window.confirm(`Delete "${title}"? This cannot be undone.`);
-    if (!confirmed) return;
+    setDeleteConfirmText("");
+    setDeleteConfirmOpen(true);
+  }
+
+  async function confirmDelete() {
+    if ((mode !== "edit" && mode !== "delete") || !originalSlug || deleteConfirmText.trim() !== "delete") return;
 
     setIsSubmitting(true);
     setStatus("Deleting post...");
@@ -333,6 +445,7 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
         return;
       }
 
+      clearDraft(`${DRAFT_KEY_PREFIX}${originalSlug}`);
       setStatus("Deleted successfully. Reloading...");
       window.setTimeout(() => window.location.reload(), 700);
     } catch {
@@ -528,8 +641,20 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
             </div>
 
             <footer className={styles.footer}>
-              <p className={`${styles.status} ${isSuccess ? styles.statusSuccess : ""}`}>{status || " "}</p>
+              <p className={`${styles.status} ${isSuccess || (!status && autoSaveStatus) ? styles.statusSuccess : ""}`}>
+                {status || autoSaveStatus || " "}
+              </p>
               <div className={`${styles.actions} ${styles.footerActions}`}>
+                {canDiscardDraft ? (
+                  <button
+                    type="button"
+                    onClick={discardDraft}
+                    disabled={isSubmitting}
+                    className={styles.ghostButton}
+                  >
+                    Discard autosave
+                  </button>
+                ) : null}
                 {mode !== "create" ? (
                   <button
                     type="button"
@@ -552,6 +677,51 @@ export default function BlogEditorModal({ posts, controls = "toolbar" }: Props) 
                 ) : null}
               </div>
             </footer>
+
+            {deleteConfirmOpen ? (
+              <div className={styles.confirmOverlay} onClick={() => setDeleteConfirmOpen(false)}>
+                <div
+                  className={styles.confirmDialog}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="delete-confirm-title"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <p className={styles.eyebrow}>Permanent delete</p>
+                  <h3 id="delete-confirm-title" className={styles.confirmTitle}>
+                    Delete {title ? `"${title}"` : "this post"}?
+                  </h3>
+                  <p className={styles.confirmCopy}>
+                    This removes the post from your blog data. Type <strong>delete</strong> to confirm.
+                  </p>
+                  <input
+                    value={deleteConfirmText}
+                    onChange={(event) => setDeleteConfirmText(event.target.value)}
+                    placeholder="delete"
+                    className={styles.input}
+                    autoFocus
+                  />
+                  <div className={styles.confirmActions}>
+                    <button
+                      type="button"
+                      onClick={() => setDeleteConfirmOpen(false)}
+                      disabled={isSubmitting}
+                      className={styles.ghostButton}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={confirmDelete}
+                      disabled={isSubmitting || deleteConfirmText.trim() !== "delete"}
+                      className={styles.dangerButton}
+                    >
+                      {isSubmitting ? "Deleting..." : "Permanently delete"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}

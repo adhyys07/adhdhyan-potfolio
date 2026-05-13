@@ -285,8 +285,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
             Blogs
           </div>
           <p className={styles.blogBody}>
-            i write about building products, shipping games, and learning in public.
-            no marketing fluff - just raw thoughts on engineering, startups, and what I&apos;m learning.
+            I write about,my current projects, my thoughts for currently trending topics and learning in public.
           </p>
           <Link href="/blogs" className={styles.blogLink}>
             read all posts →

@@ -31,8 +31,7 @@ export default async function BlogsPage() {
           </h1>
           <div style={{ color: "#c4c4c4", fontSize: "1rem", lineHeight: "1.85" }}>
             <p>
-              I write about building products, shipping games, and learning in public.
-              No marketing fluff - just raw thoughts on engineering, startups, and what I&apos;m learning.
+               I write about,my current projects, my thoughts for currently trending topics and learning in public.
             </p>
           </div>
         </header>
