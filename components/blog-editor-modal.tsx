@@ -294,7 +294,7 @@ export default function BlogEditorModal({ posts }: Props) {
   }
 
   async function handleDelete() {
-    if (mode !== "edit" || !originalSlug) return;
+    if ((mode !== "edit" && mode !== "delete") || !originalSlug) return;
     const confirmed = window.confirm(`Delete "${title}"? This cannot be undone.`);
     if (!confirmed) return;
 
@@ -550,7 +550,7 @@ export default function BlogEditorModal({ posts }: Props) {
                     disabled={isSubmitting}
                     className={styles.dangerButton}
                   >
-                    Delete
+                    {isSubmitting ? "Deleting..." : "Delete post"}
                   </button>
                 ) : null}
                 {mode !== "delete" ? (
