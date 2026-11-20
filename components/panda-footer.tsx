@@ -8,6 +8,13 @@ export default function PandaFooter() {
           <feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves={3} seed={4} result="cn" />
           <feDisplacementMap in="SourceGraphic" in2="cn" scale={17} xChannelSelector="R" yChannelSelector="G" />
         </filter>
+        <linearGradient id="pf-fade" x1="0" y1="72" x2="0" y2="160" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fff" stopOpacity={0} />
+          <stop offset="1" stopColor="#fff" stopOpacity={1} />
+        </linearGradient>
+        <mask id="pf-land" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="380">
+          <rect width="1200" height="380" fill="url(#pf-fade)" />
+        </mask>
       </defs>
 
       <g className={styles.spark}>
@@ -17,9 +24,11 @@ export default function PandaFooter() {
         <circle cx="260" cy="76" r="2" /><circle cx="900" cy="86" r="2.2" />
       </g>
 
-      <path className={styles.water} d="M0 118 H1200 V380 H0 Z" />
-      <g filter="url(#coast-warp)">
-        <path className={styles.grass} d="M330 118 L1200 86 L1200 380 L760 380 Z" />
+      <g mask="url(#pf-land)">
+        <path className={styles.water} d="M0 118 H1200 V380 H0 Z" />
+        <g filter="url(#coast-warp)">
+          <path className={styles.grass} d="M330 118 L1200 86 L1200 380 L760 380 Z" />
+        </g>
       </g>
 
       <g>

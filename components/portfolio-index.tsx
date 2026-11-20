@@ -140,7 +140,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
       <nav className={styles.nav}>
         <div className={styles.navLogo}>
-          <span aria-hidden>&lt;</span>adhdhyan jain<span aria-hidden>&gt;</span>
+          <span aria-hidden>&lt;</span>adhyys<span aria-hidden>&gt;</span>
         </div>
         <ul className={styles.navLinks}>
           <li><a href="#skills">skills</a></li>

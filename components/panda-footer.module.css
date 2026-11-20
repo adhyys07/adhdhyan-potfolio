@@ -1,17 +1,19 @@
-.scene { display: block; width: 100%; height: auto; position: relative; z-index: 2; }
+/* palette pulled toward the site tokens: deep desaturated water/land that sit
+   just above --bg, with the red accent + amber doing the colour work */
+.scene { display: block; width: 100%; height: auto; position: relative; z-index: 2; margin-top: -24px; }
 
-.water     { fill: #152b52; }
-.waterDark { fill: #1d3a66; opacity: .8; }
-.grass     { fill: #1f6b3a; }
-.grassDark { fill: #164f2b; }
-.body      { fill: #f2f2f0; }
-.fur       { fill: #14141a; }
+.water     { fill: #1a2030; }
+.waterDark { fill: #222a3d; opacity: .8; }
+.grass     { fill: #1b2e24; }
+.grassDark { fill: #15251c; }
+.body      { fill: var(--text); }
+.fur       { fill: #111116; }
 .tube      { fill: var(--accent); }
-.bamboo    { fill: #6fbf73; }
-.cap       { fill: var(--red); }
-.capBand   { fill: #f57080; }
-.capTail   { stroke: var(--red); stroke-width: 13; fill: none; stroke-linecap: round; }
-.smile     { stroke: #14141a; stroke-width: 2.6; fill: none; stroke-linecap: round; }
-.ripple    { stroke: #2d508a; stroke-width: 3; fill: none; stroke-linecap: round; }
-.spark     { fill: var(--muted); opacity: .5; }
-.c1 { fill: var(--red); } .c2 { fill: var(--accent); } .c3 { fill: #f2f2f0; }
+.bamboo    { fill: #4c8a5a; }
+.cap       { fill: var(--accent); }
+.capBand   { fill: var(--accent-text); }
+.capTail   { stroke: var(--accent); stroke-width: 13; fill: none; stroke-linecap: round; }
+.smile     { stroke: #111116; stroke-width: 2.6; fill: none; stroke-linecap: round; }
+.ripple    { stroke: #2e3a55; stroke-width: 3; fill: none; stroke-linecap: round; }
+.spark     { fill: var(--amber); opacity: .45; }
+.c1 { fill: var(--accent-text); } .c2 { fill: var(--amber); } .c3 { fill: var(--text); opacity: .7; }
