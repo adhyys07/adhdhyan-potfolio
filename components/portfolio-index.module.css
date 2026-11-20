@@ -157,6 +157,29 @@
 .projectYear { padding: 3px 0; }
 .projectArrow { font-size: 14px; color: var(--dim); transition: transform .12s, color .12s; }
 
+/* ---------- writing ---------- */
+.postsList { display: flex; flex-direction: column; }
+
+.postRow {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+  padding: 16px 8px; border-bottom: 1px solid var(--border); border-radius: 4px;
+  color: var(--text); text-decoration: none;
+  transition: background .12s;
+}
+.postRow:hover { background: var(--surface-2); }
+.postRow:hover .projectArrow { transform: translateX(4px); color: var(--accent-text); }
+
+.postDate { flex: 0 0 72px; font-size: 12px; color: var(--muted); }
+.postTitle {
+  flex: 999 1 240px; min-width: 0;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 16px;
+}
+.postCategory {
+  padding: 3px 7px; border: 1px solid var(--border-bright); border-radius: 3px;
+  font-size: 11px; color: var(--muted);
+}
+
 .projectActions { margin-top: 20px; }
 .projectAction { font-size: 13px; color: var(--accent-text); text-decoration: none; border-bottom: 1px solid rgba(255,90,110,.35); }
 

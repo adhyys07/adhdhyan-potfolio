@@ -11,11 +11,22 @@ import FaqBlock from "@/components/faq-block";
 
 import styles from "./portfolio-index.module.css";
 
-type Props = {
-  fontClassName: string;
+export type RecentPost = {
+  slug: string;
+  title: string;
+  publishedAt: string;
+  category: string;
 };
 
-const featuredProjects = projects.slice(0, 5);
+type Props = {
+  fontClassName: string;
+  /** Most recent posts, read on the server and passed in — lib/blog.ts uses fs. */
+  posts?: RecentPost[];
+};
+
+// 2026 entries are the things still in motion; 2025 and earlier have shipped.
+const buildingNow = projects.filter((p) => p.year === "2026").slice(0, 6);
+const featuredProjects = projects.filter((p) => p.year !== "2026").slice(0, 5);
 
 const skills = [
   {
@@ -61,7 +72,7 @@ function Rule({ n, label, id }: { n: string; label: string; id?: string }) {
   );
 }
 
-export default function PortfolioIndex({ fontClassName }: Props) {
+export default function PortfolioIndex({ fontClassName, posts = [] }: Props) {
   const rootRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -153,11 +164,11 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           <span aria-hidden>&lt;</span>adhyys<span aria-hidden>&gt;</span>
         </div>
         <ul className={styles.navLinks}>
+          <li><a href="#building">building</a></li>
           <li><a href="#skills">skills</a></li>
-          <li><a href="#projects">projects</a></li>
-          <li><a href="/shipped">shipped</a></li>
+          <li><a href="/projects">projects</a></li>
           <li><a href="#startups">startups</a></li>
-          <li><a href="#blog">blog</a></li>
+          <li><a href="#writing">writing</a></li>
         </ul>
         <a href="mailto:me@adhyys.cc" className={styles.navCta}>$ contact</a>
       </nav>
@@ -186,10 +197,58 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
+      <section id="building" className={styles.section}>
+        <Rule n="01" label="what i'm building" />
+        <div className={styles.projectsList}>
+          {buildingNow.map((project, i) => (
+            <a
+              key={project.name}
+              href={project.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className={styles.projectRow}
+              data-hover
+              data-reveal
+            >
+              <span aria-hidden className={styles.projectIdx}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.projectName}>{project.name}</span>
+              <span className={styles.projectDesc}>{project.desc}</span>
+              <span className={styles.projectMeta}>
+                <span className={styles.projectType}>{project.type}</span>
+              </span>
+              <span aria-hidden className={styles.projectArrow}>→</span>
+            </a>
+          ))}
+        </div>
+        <div className={styles.projectActions}>
+          <Link href="/projects" className={styles.projectAction}>
+            see everything →
+          </Link>
+        </div>
+      </section>
 
+      <section id="hackclub" className={styles.section}>
+        <Rule n="02" label="hack club" />
+        <p className={styles.sectionIntro} data-reveal>
+          i help run YSWS programs — &ldquo;you ship, we ship&rdquo; grants that get teenagers building
+          real, finished things. i review submissions, write grading criteria, and organise
+          events around delhi ncr. i started{" "}
+          <a href="https://github.com/hackclub/enclosure" target="_blank" rel="noreferrer noopener" className={styles.startupLink}>
+            enclosure
+          </a>
+          , a YSWS where builders design enclosures and get them 3D-printed and shipped.
+        </p>
+        <div className={styles.startupStats} data-reveal>
+          {/* TODO: replace the [N] placeholders with real figures */}
+          <div><div className={styles.statNum}>[N]</div><div className={styles.statLabel}>projects reviewed</div></div>
+          <div><div className={styles.statNum}>[N]</div><div className={styles.statLabel}>programs shipped</div></div>
+          <div><div className={styles.statNum}>[N]</div><div className={styles.statLabel}>teens reached</div></div>
+          <div><div className={styles.statNum}>delhi ncr</div><div className={styles.statLabel}>events run</div></div>
+        </div>
+      </section>
 
       <section id="skills" className={styles.section}>
-        <Rule n="01" label="what i do" />
+        <Rule n="03" label="what i do" />
         <div className={styles.skillsGrid}>
           {skills.map((skill) => (
             <div key={skill.name} className={`${styles.skillCard} ${skill.tone}`} data-hover data-reveal>
@@ -236,7 +295,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="projects" className={styles.section}>
-        <Rule n="02" label="things i've shipped" />
+        <Rule n="04" label="things i've shipped" />
         <p className={styles.sectionIntro} data-reveal>
           a short list of the products and projects that made it into the world — games, tools, open source, and publisher-ready experiments.
         </p>
@@ -264,7 +323,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="startups" className={styles.section}>
-        <Rule n="03" label="the startup chapter" />
+        <Rule n="05" label="the startup chapter" />
         <div className={styles.startupBox} data-reveal>
           <div className={styles.startupHeadline}>
             one startup in motion,<br />
@@ -289,16 +348,34 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <section id="blog" className={styles.section}>
-        <Rule n="04" label="blogs" />
-        <div className={styles.blogBox} data-reveal>
-          <div className={styles.blogHeadline}>
-            Blogs
+      <section id="writing" className={styles.section}>
+        <Rule n="06" label="writing" />
+        <p className={styles.sectionIntro} data-reveal>
+          i write about the projects i&apos;m in the middle of, what i think about whatever is
+          currently loud, and learning in public.
+        </p>
+        {posts.length > 0 ? (
+          <div className={styles.postsList}>
+            {posts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blogs/${post.slug}`}
+                className={styles.postRow}
+                data-hover
+                data-reveal
+              >
+                <span className={styles.postDate}>{post.publishedAt.slice(0, 7)}</span>
+                <span className={styles.postTitle}>{post.title}</span>
+                <span className={styles.postCategory}>{post.category}</span>
+                <span aria-hidden className={styles.projectArrow}>→</span>
+              </Link>
+            ))}
           </div>
-          <p className={styles.blogBody}>
-            I write about,my current projects, my thoughts for currently trending topics and learning in public.
-          </p>
-          <Link href="/blogs" className={styles.blogLink}>
+        ) : (
+          <p className={styles.sectionIntro}>no posts yet.</p>
+        )}
+        <div className={styles.projectActions}>
+          <Link href="/blogs" className={styles.projectAction}>
             read all posts →
           </Link>
         </div>
@@ -306,12 +383,12 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="faq" className={styles.section}>
-        <Rule n="05" label="the usual questions" />
+        <Rule n="07" label="the usual questions" />
         <FaqBlock />
       </section>
 
       <section id="contact" className={styles.section}>
-        <Rule n="06" label="find me" />
+        <Rule n="08" label="find me" />
         <p className={styles.contactLead}>
           always down to talk games, startups, or whatever weird side project you are building at midnight. shoot me a message anywhere below.
         </p>
