@@ -7,6 +7,7 @@ import ChromaticHaze from "@/components/chromatic-haze";
 import AsciiField from "@/components/ascii-field";
 import DitherBlob from "@/components/dither-blob";
 import PandaFooter from "@/components/panda-footer";
+import FaqBlock from "@/components/faq-block";
 
 import styles from "./portfolio-index.module.css";
 
@@ -99,10 +100,18 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           }
         });
       },
-      { threshold: 0.1 },
+      // rootMargin starts the fade before the section reaches the viewport,
+      // so you never scroll onto a blank panel.
+      { threshold: 0.05, rootMargin: "200px 0px" },
     );
 
     revealTargets.forEach((node) => observer.observe(node));
+
+    // Failsafe: if the observer never fires for some target, reveal everything
+    // rather than leaving content permanently invisible.
+    const revealFailsafe = window.setTimeout(() => {
+      revealTargets.forEach((node) => node.classList.add(styles.visible));
+    }, 2500);
 
     const handleNavClick = (e: Event) => {
       e.preventDefault();
@@ -126,6 +135,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         target.removeEventListener("mouseleave", onLeave);
       });
       observer.disconnect();
+      window.clearTimeout(revealFailsafe);
       navLinks.forEach((link) => {
         link.removeEventListener("click", handleNavClick);
       });
@@ -295,8 +305,13 @@ export default function PortfolioIndex({ fontClassName }: Props) {
       </section>
 
 
+      <section id="faq" className={styles.section}>
+        <Rule n="05" label="the usual questions" />
+        <FaqBlock />
+      </section>
+
       <section id="contact" className={styles.section}>
-        <Rule n="05" label="find me" />
+        <Rule n="06" label="find me" />
         <p className={styles.contactLead}>
           always down to talk games, startups, or whatever weird side project you are building at midnight. shoot me a message anywhere below.
         </p>

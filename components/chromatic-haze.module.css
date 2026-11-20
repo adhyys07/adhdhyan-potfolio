@@ -2,7 +2,7 @@
 .pool { position: absolute; display: block; border-radius: 50%; }
 
 .red    { top: -280px; left: -14%;  width: 72%; height: 940px; filter: blur(80px);
-          background: radial-gradient(closest-side, rgba(236,55,80,.26),  rgba(236,55,80,0)  72%); }
+          background: radial-gradient(closest-side, rgba(236,55,80,.18),  rgba(236,55,80,0)  72%); }
 .green  { top: -140px; right: -18%; width: 66%; height: 800px; filter: blur(90px);
           background: radial-gradient(closest-side, rgba(74,176,134,.20), rgba(74,176,134,0) 72%); }
 .violet { top: 1400px; left: 14%;   width: 76%; height: 920px; filter: blur(100px);
