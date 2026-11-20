@@ -3,6 +3,10 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { projects } from "@/lib/projects";
+import ChromaticHaze from "@/components/chromatic-haze";
+import AsciiField from "@/components/ascii-field";
+import DitherBlob from "@/components/dither-blob";
+import PandaFooter from "@/components/panda-footer";
 
 import styles from "./portfolio-index.module.css";
 
@@ -87,7 +91,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
     revealTargets.forEach((node) => observer.observe(node));
 
-    // Smooth scrolling for nav links
     const handleNavClick = (e: Event) => {
       e.preventDefault();
       const link = e.target as HTMLAnchorElement;
@@ -119,6 +122,8 @@ export default function PortfolioIndex({ fontClassName }: Props) {
   return (
     <main ref={rootRef} className={`${styles.page} ${fontClassName} ${styles.noJs}`}>
       <div data-cursor className={styles.cursor} />
+      <ChromaticHaze />
+      <AsciiField />
 
       <nav className={styles.nav}>
         <div className={styles.navLogo}>.Adhyys</div>
@@ -309,10 +314,14 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <span>made with caffeine and questionable life choices</span>
-        <span><a href="https://github.com/adhyys07/adhdhyan-potfolio">source</a> · <a href="/pgp">pgp</a> · <a href="/rss.xml">rss</a></span>
-      </footer>
+      <div className={styles.footerWrap}>
+        <DitherBlob />
+        <footer className={styles.footer}>
+          <span>made with caffeine and questionable life choices</span>
+          <span><a href="https://github.com/adhyys07/adhdhyan-potfolio">source</a> · <a href="/pgp">pgp</a> · <a href="/rss.xml">rss</a></span>
+        </footer>
+        <PandaFooter />
+      </div>
     </main>
   );
 }

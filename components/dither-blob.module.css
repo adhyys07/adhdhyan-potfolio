@@ -1,0 +1,18 @@
+.blob {
+  position: absolute; top: -70px; left: 0;
+  width: 100%; height: 320px; pointer-events: none; z-index: 0;
+  will-change: transform;
+  animation: drift 29s linear infinite;
+}
+
+.ink { fill: var(--accent); }
+
+@keyframes drift {
+  0%   { transform: translate3d(-16px, -5px, 0) scale(1); }
+  25%  { transform: translate3d(7px, 7px, 0)    scale(1.035); }
+  50%  { transform: translate3d(17px, -7px, 0)  scale(1); }
+  75%  { transform: translate3d(-5px, 6px, 0)   scale(1.035); }
+  100% { transform: translate3d(-16px, -5px, 0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) { .blob { animation: none; } }

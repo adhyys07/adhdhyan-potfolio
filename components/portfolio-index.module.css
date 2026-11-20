@@ -734,7 +734,7 @@
 
 .footer {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 40px;
@@ -829,4 +829,21 @@
     gap: 12px;
     text-align: center;
   }
+}
+
+.footerWrap {
+  position: relative;
+  z-index: 2;
+  margin-top: 80px;
+}
+
+/* dark pocket so the moving blob never crosses the footer text at full strength */
+.footerWrap::before {
+  content: "";
+  position: absolute;
+  top: -50px; left: 0; right: 0; height: 300px;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 44% 56% at 50% 58%,
+    rgba(12,12,15,.96) 0%, rgba(12,12,15,.86) 46%, rgba(12,12,15,0) 78%);
 }

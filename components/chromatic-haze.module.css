@@ -1,0 +1,13 @@
+.haze { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; transform: translateZ(0); }
+.pool { position: absolute; display: block; border-radius: 50%; }
+
+.lime { top: -280px; left: -14%;  width: 72%; height: 940px; filter: blur(80px);
+        background: radial-gradient(closest-side, rgba(212,240,96,.14), rgba(212,240,96,0) 72%); }
+.cyan { top: -140px; right: -18%; width: 66%; height: 800px; filter: blur(90px);
+        background: radial-gradient(closest-side, rgba(96,212,240,.16), rgba(96,212,240,0) 72%); }
+.pink { top: 1400px; left: 14%;   width: 76%; height: 920px; filter: blur(100px);
+        background: radial-gradient(closest-side, rgba(240,96,168,.13), rgba(240,96,168,0) 72%); }
+.red  { top: 2900px; left: -10%;  width: 64%; height: 860px; filter: blur(100px);
+        background: radial-gradient(closest-side, rgba(240,80,96,.12), rgba(240,80,96,0) 72%); }
+
+.grain { position: absolute; inset: 0; opacity: .55; mix-blend-mode: overlay; transform: translateZ(0); }
