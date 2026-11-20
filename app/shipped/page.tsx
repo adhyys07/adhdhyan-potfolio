@@ -1,6 +1,7 @@
 import { projects } from "@/lib/projects";
 import Link from "next/link";
 import styles from "./page.module.css";
+import ChromaticHaze from "@/components/chromatic-haze";
 
 export const metadata = {
   title: "Shipped Projects",
@@ -10,10 +11,18 @@ export const metadata = {
 export default function ShippedPage() {
   return (
     <main className={styles.page}>
+      <ChromaticHaze />
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
-            <p className={styles.label}>02 - things i&apos;ve shipped</p>
+            <div className={styles.rule}>
+              <span aria-hidden className={styles.ruleDash}>──</span>
+              <span className={styles.ruleNum}>02</span>
+              <span aria-hidden className={styles.ruleDash}>┤</span>
+              <h2 className={styles.ruleLabel}>things i&apos;ve shipped</h2>
+              <span aria-hidden className={styles.ruleDash}>├</span>
+              <span aria-hidden className={styles.ruleLine} />
+            </div>
             <h1 className={styles.title}>Launched work, products, and experiments.</h1>
           </div>
           <p className={styles.lead}>

@@ -47,6 +47,19 @@ const skills = [
   },
 ];
 
+function Rule({ n, label, id }: { n: string; label: string; id?: string }) {
+  return (
+    <div id={id} className={styles.rule}>
+      <span aria-hidden className={styles.ruleDash}>──</span>
+      <span className={styles.ruleNum}>{n}</span>
+      <span aria-hidden className={styles.ruleDash}>┤</span>
+      <h2 className={styles.ruleLabel}>{label}</h2>
+      <span aria-hidden className={styles.ruleDash}>├</span>
+      <span aria-hidden className={styles.ruleLine} />
+    </div>
+  );
+}
+
 export default function PortfolioIndex({ fontClassName }: Props) {
   const rootRef = useRef<HTMLElement | null>(null);
 
@@ -126,27 +139,23 @@ export default function PortfolioIndex({ fontClassName }: Props) {
       <AsciiField />
 
       <nav className={styles.nav}>
-        <div className={styles.navLogo}>.Adhyys</div>
+        <div className={styles.navLogo}>
+          <span aria-hidden>&lt;</span>adhdhyan jain<span aria-hidden>&gt;</span>
+        </div>
         <ul className={styles.navLinks}>
           <li><a href="#skills">skills</a></li>
           <li><a href="#projects">projects</a></li>
           <li><a href="/shipped">shipped</a></li>
           <li><a href="#startups">startups</a></li>
           <li><a href="#blog">blog</a></li>
-          <li><a href="#contact">contact</a></li>
         </ul>
-        <div className={styles.navStatus}>
-          <span className={styles.statusDot} />
-          open to collabs
-        </div>
+        <a href="mailto:me@adhyys.cc" className={styles.navCta}>$ contact</a>
       </nav>
 
       <section className={`${styles.section} ${styles.hero}`}>
-        <div className={styles.heroTag}>{"// full-stack · game dev · founder"}</div>
+        <div className={styles.heroTag}><span aria-hidden>$</span> whoami</div>
         <h1 className={styles.heroGreeting}>
-          heyo,<br />
-          i&apos;m <em>Adhdhyan</em><br />
-          <span>i build things.</span>
+          heyo, i&apos;m <em>Adhdhyan</em> :D<span aria-hidden className={styles.heroCursor}>_</span>
         </h1>
         <p className={styles.heroBio}>
           a <strong>developer</strong> who ships games at midnight and pitches startups in the morning.
@@ -167,7 +176,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <hr className={styles.divider} />
 
 
       <section id="skills" className={styles.section}>
@@ -188,7 +196,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <hr className={styles.divider} />
 
       <section className={styles.terminalSection}>
         <div className={styles.terminal} data-reveal>
@@ -217,7 +224,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <hr className={styles.divider} />
 
       <section id="projects" className={styles.section}>
         <div className={styles.sectionLabel}>02 - things i&apos;ve shipped</div>
@@ -225,24 +231,17 @@ export default function PortfolioIndex({ fontClassName }: Props) {
           a short list of the products and projects that made it into the world — games, tools, open source, and publisher-ready experiments.
         </p>
         <div className={styles.projectsList}>
-          {featuredProjects.map((project) => (
-            <a
-              key={project.name}
-              href={project.url}
-              target="_blank"
-              rel="noreferrer noopener"
-              className={styles.projectRow}
-              data-hover
-              data-reveal
-            >
-              <div>
-                <div className={styles.projectName}>{project.name}</div>
-                <div className={styles.projectDesc}>{project.desc}</div>
-              </div>
-              <div className={styles.projectMeta}>
-                <div className={styles.projectType}>{project.type}</div>
-                <div className={styles.projectYear}>{project.year}</div>
-              </div>
+          {featuredProjects.map((project, i) => (
+            <a key={project.name} href={project.url} target="_blank" rel="noreferrer noopener"
+               className={styles.projectRow} data-hover data-reveal>
+              <span aria-hidden className={styles.projectIdx}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.projectName}>{project.name}</span>
+              <span className={styles.projectDesc}>{project.desc}</span>
+              <span className={styles.projectMeta}>
+                <span className={styles.projectType}>{project.type}</span>
+                <span className={styles.projectYear}>{project.year}</span>
+              </span>
+              <span aria-hidden className={styles.projectArrow}>→</span>
             </a>
           ))}
         </div>
@@ -253,7 +252,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <hr className={styles.divider} />
 
       <section id="startups" className={styles.section}>
         <div className={styles.sectionLabel}>03 - the startup chapter</div>
@@ -281,8 +279,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <hr className={styles.divider} />
-
       <section id="blog" className={styles.section}>
         <div className={styles.sectionLabel}>05 - Blogs</div>
         <div className={styles.blogBox} data-reveal>
@@ -298,7 +294,6 @@ export default function PortfolioIndex({ fontClassName }: Props) {
         </div>
       </section>
 
-      <hr className={styles.divider} />
 
       <section id="contact" className={styles.section}>
         <div className={styles.sectionLabel}>04 - find me</div>

@@ -47,7 +47,7 @@ export default function DevLoginModal({ isOpen, onClose, onAuthenticated }: Prop
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-sm rounded-xl border border-white/10 bg-[#1a1a1a] p-6 shadow-2xl">
+      <div className="w-full max-w-sm rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-2xl">
         <h2 className="text-lg font-semibold text-white">Dev login</h2>
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
           <label className="block">

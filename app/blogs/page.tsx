@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { formatPublishedDate, getAllPosts } from "@/lib/blog";
 import WritingPageClient from "@/components/writing-page-client";
 import BlogEditorModal, { BlogInlineActions } from "@/components/blog-editor-modal";
+import ChromaticHaze from "@/components/chromatic-haze";
 
 export const metadata = {
   title: "Blogs",
@@ -16,20 +17,21 @@ export default async function BlogsPage() {
   const isLoggedIn = cookieStore.get("blog_admin")?.value === "1";
 
   return (
-    <main style={{ minHeight: "100vh", background: "#0c0c0f", color: "#e8e6e0", fontFamily: "var(--font-jetbrains-mono), monospace" }}>
-      <div className="mx-auto min-h-screen w-full max-w-4xl px-6 py-10 sm:px-10">
+    <main style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "var(--mono)", position: "relative", overflowX: "hidden" }}>
+      <ChromaticHaze />
+      <div className="mx-auto min-h-screen w-full max-w-4xl px-6 py-10 sm:px-10" style={{ position: "relative", zIndex: 2 }}>
         <div className="flex justify-end">
           <WritingPageClient isLoggedIn={isLoggedIn} />
         </div>
 
         <header className="max-w-2xl pt-14">
-          <p style={{ fontSize: "10px", letterSpacing: "0.25em", color: "#9ca3af", textTransform: "uppercase", marginBottom: "10px" }}>
+          <p style={{ fontSize: "10px", letterSpacing: "0.25em", color: "var(--muted)", textTransform: "uppercase", marginBottom: "10px" }}>
             05 - notes & essays
           </p>
           <h1 style={{ fontSize: "clamp(2.25rem, 5vw, 3.75rem)", lineHeight: "1.05", fontFamily: "var(--font-instrument-serif), serif", margin: "0 0 20px" }}>
             Blogs
           </h1>
-          <div style={{ color: "#c4c4c4", fontSize: "1rem", lineHeight: "1.85" }}>
+          <div style={{ color: "var(--text-soft)", fontSize: "1rem", lineHeight: "1.85" }}>
             <p>
                I write about,my current projects, my thoughts for currently trending topics and learning in public.
             </p>
@@ -50,7 +52,7 @@ export default async function BlogsPage() {
                 <div className="flex flex-wrap items-end gap-3">
                   <Link
                     href={`/blogs/${post.slug}`}
-                    className="flex min-w-0 flex-1 items-end gap-3 text-base leading-tight text-[#f4f4f4] transition-colors hover:text-[#d4f060] sm:text-[17px]"
+                    className="flex min-w-0 flex-1 items-end gap-3 text-base leading-tight text-[var(--text)] transition-colors hover:text-[var(--accent-text)] sm:text-[17px]"
                     style={{ textDecoration: "none" }}
                   >
                     <span className="min-w-0 break-words">{post.title}</span>
@@ -66,10 +68,10 @@ export default async function BlogsPage() {
           </ul>
         </section>
 
-        <footer style={{ marginTop: "42px", textAlign: "center", color: "#9ca3af", fontSize: "0.95rem" }}>
+        <footer style={{ marginTop: "42px", textAlign: "center", color: "var(--muted)", fontSize: "0.95rem" }}>
           <span>made with caffeine and questionable life choices</span>
           <br />
-          <span><Link href="/" style={{ color: "#9ca3af", textDecoration: "none" }}>Back to portfolio</Link> / <a href="#" style={{ color: "#9ca3af", textDecoration: "none" }}>source</a> / <a href="/pgp" style={{ color: "#9ca3af", textDecoration: "none" }}>pgp</a> / <a href="/rss.xml" style={{ color: "#9ca3af", textDecoration: "none" }}>rss</a></span>
+          <span><Link href="/" style={{ color: "var(--muted)", textDecoration: "none" }}>Back to portfolio</Link> / <a href="#" style={{ color: "var(--muted)", textDecoration: "none" }}>source</a> / <a href="/pgp" style={{ color: "var(--muted)", textDecoration: "none" }}>pgp</a> / <a href="/rss.xml" style={{ color: "var(--muted)", textDecoration: "none" }}>rss</a></span>
         </footer>
       </div>
     </main>
