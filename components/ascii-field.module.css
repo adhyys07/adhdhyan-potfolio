@@ -10,16 +10,15 @@
   font-family: var(--mono);
   font-size: 13px; line-height: 15px;
 }
+
 .dim    { color: #2f2f3a; transform: translateZ(0); }
 .bright { color: #b9b9c6; }
 .sparks { position: absolute; top: 0; left: 0; color: var(--accent-text); }
-.inner  { background: rgba(154,154,168,.11); /* ...rest unchanged */ }
-.scrim  { background: radial-gradient(ellipse 42% 46% at 50% 50%,
-            rgba(23,23,29,.96) 0%, rgba(23,23,29,.86) 46%, rgba(23,23,29,0) 76%); }
 
 .lens {
   position: absolute; top: 0; left: 0; width: 260px; height: 300px;
   will-change: transform; transform: translate3d(-9999px, -9999px, 0);
+  /* stepped edge — fakes the lit region snapping to character cells */
   clip-path: polygon(
     38% 0%, 62% 2%, 62% 7%, 78% 7%, 78% 14%, 88% 14%, 88% 26%, 96% 26%,
     96% 44%, 92% 44%, 92% 58%, 98% 58%, 98% 72%, 86% 72%, 86% 82%,
@@ -35,8 +34,11 @@
   will-change: transform; transform: translate3d(9999px, 9999px, 0);
 }
 
+/* keeps hero copy legible as the lit blob passes behind it.
+   wide and soft on purpose: a tight ellipse reads as a grey smudge
+   once it sits over the haze. matches --bg (#17171d), not the old ground. */
 .scrim {
   position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 42% 46% at 50% 50%,
-    rgba(12,12,15,.96) 0%, rgba(12,12,15,.86) 46%, rgba(12,12,15,0) 76%);
+  background: radial-gradient(ellipse 58% 40% at 50% 34%,
+    rgba(23,23,29,.92) 0%, rgba(23,23,29,.52) 55%, rgba(23,23,29,0) 86%);
 }
