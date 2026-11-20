@@ -219,3 +219,4 @@
   .heroCursor, .tCursor { animation: none; }
   .page [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
+.noJs {}

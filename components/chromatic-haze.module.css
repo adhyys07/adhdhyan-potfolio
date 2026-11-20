@@ -9,3 +9,5 @@
           background: radial-gradient(closest-side, rgba(122,92,222,.18), rgba(122,92,222,0) 72%); }
 .amber  { top: 2900px; left: -10%;  width: 64%; height: 860px; filter: blur(100px);
           background: radial-gradient(closest-side, rgba(245,166,35,.13), rgba(245,166,35,0) 72%); }
+
+.grain { position: absolute; inset: 0; opacity: .55; mix-blend-mode: overlay; transform: translateZ(0); }

@@ -179,7 +179,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="skills" className={styles.section}>
-        <div className={styles.sectionLabel}>01 - what i do</div>
+        <Rule n="01" label="what i do" />
         <div className={styles.skillsGrid}>
           {skills.map((skill) => (
             <div key={skill.name} className={`${styles.skillCard} ${skill.tone}`} data-hover data-reveal>
@@ -226,7 +226,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="projects" className={styles.section}>
-        <div className={styles.sectionLabel}>02 - things i&apos;ve shipped</div>
+        <Rule n="02" label="things i've shipped" />
         <p className={styles.sectionIntro} data-reveal>
           a short list of the products and projects that made it into the world — games, tools, open source, and publisher-ready experiments.
         </p>
@@ -254,7 +254,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="startups" className={styles.section}>
-        <div className={styles.sectionLabel}>03 - the startup chapter</div>
+        <Rule n="03" label="the startup chapter" />
         <div className={styles.startupBox} data-reveal>
           <div className={styles.startupHeadline}>
             one startup in motion,<br />
@@ -280,7 +280,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
       </section>
 
       <section id="blog" className={styles.section}>
-        <div className={styles.sectionLabel}>05 - Blogs</div>
+        <Rule n="04" label="blogs" />
         <div className={styles.blogBox} data-reveal>
           <div className={styles.blogHeadline}>
             Blogs
@@ -296,7 +296,7 @@ export default function PortfolioIndex({ fontClassName }: Props) {
 
 
       <section id="contact" className={styles.section}>
-        <div className={styles.sectionLabel}>04 - find me</div>
+        <Rule n="05" label="find me" />
         <p className={styles.contactLead}>
           always down to talk games, startups, or whatever weird side project you are building at midnight. shoot me a message anywhere below.
         </p>
